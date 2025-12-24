@@ -6,7 +6,7 @@
     <title><?= e($title ?? 'Admin — Ditronics') ?></title>
     
     <!-- Favicon -->
-    <link rel="icon" href="/images/DITRONICS-COMPANY-LOGO.png">
+    <link rel="icon" href="/public/images/DITRONICS-COMPANY-LOGO.png">
     
     <!-- Inter Font from Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Styles -->
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/public/css/styles.css">
     
     <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>

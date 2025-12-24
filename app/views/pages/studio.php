@@ -49,7 +49,7 @@ $digitalBrandingServices = [
         <!-- Studio Brochure Image -->
         <div class="relative max-w-4xl mx-auto rounded-xl overflow-hidden shadow-2xl">
             <img
-                src="/images/DITRONICS-STUDIOS-DOOR-GRAPHICS-PREVIEW.jpg.jpeg"
+                src="/public/images/DITRONICS-STUDIOS-DOOR-GRAPHICS-PREVIEW.jpg.jpeg"
                 alt="Ditronics Studios - Video, Film and Digital Contents Production"
                 class="w-full h-auto"
             >

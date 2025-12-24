@@ -1,27 +1,33 @@
 <?php
 $stockStatusVariant = [
-    'In Stock' => 'badge-success',
-    'Limited' => 'badge-warning',
-    'Out of Stock' => 'badge-muted',
+    'available' => 'badge-success',
+    'sold' => 'badge-muted',
+    'reserved' => 'badge-warning',
+];
+
+$conditionVariant = [
+    'new_condition' => 'New',
+    'used' => 'Used',
+    'refurbished' => 'Refurbished',
 ];
 
 $whatsappNumber = $settings['whatsapp_number'] ?? '255717321753';
 $phoneNumber = $settings['phone_number'] ?? '255717321753';
 
 $whatsappMessage = urlencode(
-    "Hi! I'm interested in the {$laptop['name']} listed at " . formatPrice($laptop['price'], $laptop['currency'] ?? 'TZS') . ". Is it still available?"
+    "Hi! I'm interested in the {$laptop['name']} listed at $" . number_format($laptop['price'], 0) . ". Is it still available?"
 );
 
 $specs = array_filter([
-    ['icon' => 'cpu', 'label' => 'Processor', 'value' => $laptop['cpu'] ?? null],
-    ['icon' => 'memory-stick', 'label' => 'RAM', 'value' => $laptop['ram'] ?? null],
-    ['icon' => 'hard-drive', 'label' => 'Storage', 'value' => $laptop['storage'] ?? null],
-    ['icon' => 'gpu', 'label' => 'Graphics', 'value' => $laptop['gpu'] ?? null],
-    ['icon' => 'monitor', 'label' => 'Display', 'value' => $laptop['display'] ?? null],
-    ['icon' => 'battery', 'label' => 'Battery', 'value' => $laptop['battery'] ?? null],
-], fn($s) => !empty($s['value']));
+    ['icon' => 'cpu', 'label' => 'Processor', 'value' => $laptop['specifications']['cpu'] ?? null],
+    ['icon' => 'memory-stick', 'label' => 'RAM', 'value' => $laptop['specifications']['ram_size'] ?? null],
+    ['icon' => 'hard-drive', 'label' => 'Storage', 'value' => ($laptop['specifications']['storage_capacity'] ?? '') . ' ' . ($laptop['specifications']['storage_type'] ?? '')],
+    ['icon' => 'gpu', 'label' => 'Graphics', 'value' => $laptop['specifications']['gpu'] ?? null],
+    ['icon' => 'monitor', 'label' => 'Display', 'value' => $laptop['specifications']['screen_size'] ?? null],
+    ['icon' => 'battery', 'label' => 'Battery', 'value' => $laptop['specifications']['battery_capacity'] ?? null],
+], fn($s) => !empty(trim($s['value'])));
 
-$ports = !empty($laptop['ports']) ? array_map('trim', explode(',', $laptop['ports'])) : [];
+$ports = !empty($laptop['specifications']['ports']) ? array_map('trim', explode(',', $laptop['specifications']['ports'])) : [];
 ?>
 
 <!-- Breadcrumb -->
@@ -60,8 +66,11 @@ $ports = !empty($laptop['ports']) ? array_map('trim', explode(',', $laptop['port
                             <i data-lucide="monitor" class="w-32 h-32 text-gray-300"></i>
                         </div>
                     <?php endif; ?>
-                    <span class="badge <?= $stockStatusVariant[$laptop['stock_status']] ?? 'badge-muted' ?> absolute top-6 right-6 text-base px-4 py-2">
-                        <?= e($laptop['stock_status']) ?>
+                    <span class="badge <?= $stockStatusVariant[$laptop['status']] ?? 'badge-muted' ?> absolute top-6 right-6 text-base px-4 py-2">
+                        <?= e(ucfirst($laptop['status'])) ?>
+                    </span>
+                    <span class="badge badge-outline absolute top-6 left-6 text-base px-4 py-2">
+                        <?= e($conditionVariant[$laptop['condition']] ?? ucfirst($laptop['condition'])) ?>
                     </span>
                 </div>
             </div>
@@ -86,7 +95,7 @@ $ports = !empty($laptop['ports']) ? array_map('trim', explode(',', $laptop['port
                 <!-- Price -->
                 <div class="mb-8">
                     <p class="text-4xl font-bold text-vermilion">
-                        <?= formatPrice($laptop['price'], $laptop['currency'] ?? 'TZS') ?>
+                        $<?= number_format($laptop['price'], 0) ?>
                     </p>
                     <p class="text-sm text-neutral-text mt-1">
                         Price inclusive of all taxes
@@ -348,7 +357,7 @@ $ports = !empty($laptop['ports']) ? array_map('trim', explode(',', $laptop['port
                                 <?= e($related['name']) ?>
                             </h3>
                             <p class="text-lg font-bold text-vermilion">
-                                <?= formatPrice($related['price'], $related['currency'] ?? 'TZS') ?>
+                                $<?= number_format($related['price'], 0) ?>
                             </p>
                         </div>
                     </div>

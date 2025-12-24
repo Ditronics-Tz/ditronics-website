@@ -11,7 +11,7 @@ $navLinks = [
     <nav class="container flex h-16 items-center justify-between">
         <!-- Logo -->
         <a href="/" class="flex items-center gap-2 text-xl font-bold text-anchor-dark hover:opacity-80 transition-opacity">
-            <img src="/images/DITRONICS-COMPANY-LOGO.png" alt="Ditronics Logo" width="40" height="40" class="rounded-full">
+            <img src="/public/images/DITRONICS-COMPANY-LOGO.png" alt="Ditronics Logo" width="40" height="40" class="rounded-full">
             <span>Ditronics</span>
         </a>
 

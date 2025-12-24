@@ -4,7 +4,7 @@
         <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <img
-                    src="/images/DITRONICS-COMPANY-LOGO.png"
+                    src="/public/images/DITRONICS-COMPANY-LOGO.png"
                     alt="Ditronics"
                     width="40"
                     height="40"

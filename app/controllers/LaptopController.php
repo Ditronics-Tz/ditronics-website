@@ -1,6 +1,7 @@
 <?php
 /**
  * Laptop Controller - Public laptop pages
+ * Updated to use external Inventory API
  */
 
 declare(strict_types=1);
@@ -9,11 +10,22 @@ class LaptopController
 {
     public function index(): void
     {
-        $db = Database::getInstance();
+        // Fetch laptops from inventory API
+        $apiResponse = InventoryAPI::getLaptops();
         
-        $laptops = $db->fetchAll(
-            'SELECT * FROM laptops ORDER BY created_at DESC'
-        );
+        if (!$apiResponse['success']) {
+            // Fallback: show error page or empty state
+            View::render('pages/laptops', [
+                'title' => 'Laptops — Ditronics',
+                'description' => 'Browse our selection of enterprise-ready laptops configured for optimal performance.',
+                'laptops' => [],
+                'error' => 'Unable to load laptops at the moment. Please try again later.',
+            ]);
+            return;
+        }
+        
+        // Format laptops for display
+        $laptops = array_map([InventoryAPI::class, 'formatProduct'], $apiResponse['data']);
 
         View::render('pages/laptops', [
             'title' => 'Laptops — Ditronics',
@@ -24,12 +36,8 @@ class LaptopController
 
     public function show(string $slug): void
     {
-        $db = Database::getInstance();
-        
-        $laptop = $db->fetch(
-            'SELECT * FROM laptops WHERE slug = ?',
-            [$slug]
-        );
+        // Find laptop by slug from inventory API
+        $laptop = InventoryAPI::getProductBySlug($slug);
 
         if ($laptop === null) {
             http_response_code(404);
@@ -38,29 +46,54 @@ class LaptopController
             ]);
             return;
         }
+        
+        // Only show if it's actually a laptop
+        if ($laptop['category'] !== 'laptop') {
+            http_response_code(404);
+            View::render('pages/laptop-not-found', [
+                'title' => 'Laptop Not Found — Ditronics',
+            ]);
+            return;
+        }
+        
+        // Format laptop for display
+        $laptop = InventoryAPI::formatProduct($laptop);
 
-        // Get related laptops (same brand or similar price range)
-        $relatedLaptops = $db->fetchAll(
-            'SELECT * FROM laptops 
-             WHERE id != ? 
-             AND (brand = ? OR (price >= ? AND price <= ?))
-             ORDER BY created_at DESC
-             LIMIT 3',
-            [
-                $laptop['id'],
-                $laptop['brand'] ?? '',
-                (int)($laptop['price'] * 0.7),
-                (int)($laptop['price'] * 1.3),
-            ]
-        );
+        // Get related laptops (same brand, limit to 3)
+        $apiResponse = InventoryAPI::getLaptops();
+        $relatedLaptops = [];
+        
+        if ($apiResponse['success']) {
+            $allLaptops = array_map([InventoryAPI::class, 'formatProduct'], $apiResponse['data']);
+            
+            // Filter related laptops (same brand, different product)
+            foreach ($allLaptops as $otherLaptop) {
+                if ($otherLaptop['id'] !== $laptop['id'] && 
+                    $otherLaptop['brand'] === $laptop['brand'] && 
+                    count($relatedLaptops) < 3) {
+                    $relatedLaptops[] = $otherLaptop;
+                }
+            }
+            
+            // If not enough same-brand laptops, add other laptops
+            if (count($relatedLaptops) < 3) {
+                foreach ($allLaptops as $otherLaptop) {
+                    if ($otherLaptop['id'] !== $laptop['id'] && 
+                        !in_array($otherLaptop, $relatedLaptops) && 
+                        count($relatedLaptops) < 3) {
+                        $relatedLaptops[] = $otherLaptop;
+                    }
+                }
+            }
+        }
 
         // Get settings for contact info
         $settings = getSettings();
 
         View::render('pages/laptop-detail', [
             'title' => $laptop['name'] . ' — Ditronics',
-            'description' => $laptop['description'] 
-                ?: "{$laptop['name']} - {$laptop['cpu']}, {$laptop['ram']}, {$laptop['storage']}. Available at Ditronics.",
+            'description' => $laptop['notes'] 
+                ?: "{$laptop['name']} - {$laptop['brand']} {$laptop['model']}. Available at Ditronics.",
             'laptop' => $laptop,
             'relatedLaptops' => $relatedLaptops,
             'settings' => $settings,

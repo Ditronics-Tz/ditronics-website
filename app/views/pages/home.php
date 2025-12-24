@@ -163,7 +163,7 @@ $tierColors = [
                     <!-- Center icon -->
                     <div class="absolute inset-0 flex items-center justify-center">
                         <div class="w-24 h-24 rounded-2xl bg-white shadow-lg flex items-center justify-center overflow-hidden">
-                            <img src="/images/DITRONICS-COMPANY-LOGO.png" alt="Ditronics Logo" width="80" height="80" class="rounded-xl">
+                            <img src="/public/images/DITRONICS-COMPANY-LOGO.png" alt="Ditronics Logo" width="80" height="80" class="rounded-xl">
                         </div>
                     </div>
                 </div>

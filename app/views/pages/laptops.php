@@ -1,8 +1,14 @@
 <?php
 $stockStatusVariant = [
-    'In Stock' => 'badge-success',
-    'Limited' => 'badge-warning',
-    'Out of Stock' => 'badge-muted',
+    'available' => 'badge-success',
+    'sold' => 'badge-muted',
+    'reserved' => 'badge-warning',
+];
+
+$conditionVariant = [
+    'new_condition' => 'New',
+    'used' => 'Used',
+    'refurbished' => 'Refurbished',
 ];
 ?>
 
@@ -107,10 +113,13 @@ $stockStatusVariant = [
                         <?php foreach ($laptops as $laptop): ?>
                             <div class="laptop-card card group" 
                                  data-name="<?= e(strtolower($laptop['name'])) ?>"
-                                 data-cpu="<?= e(strtolower($laptop['cpu'] ?? '')) ?>"
-                                 data-gpu="<?= e(strtolower($laptop['gpu'] ?? '')) ?>"
+                                 data-brand="<?= e(strtolower($laptop['brand'] ?? '')) ?>"
+                                 data-model="<?= e(strtolower($laptop['model'] ?? '')) ?>"
+                                 data-cpu="<?= e(strtolower($laptop['specifications']['cpu'] ?? '')) ?>"
+                                 data-gpu="<?= e(strtolower($laptop['specifications']['gpu'] ?? '')) ?>"
                                  data-price="<?= (int)$laptop['price'] ?>"
-                                 data-stock="<?= e($laptop['stock_status']) ?>">
+                                 data-condition="<?= e($laptop['condition']) ?>"
+                                 data-status="<?= e($laptop['status']) ?>">
                                 <!-- Image -->
                                 <div class="relative aspect-[4/3] bg-gray-50 overflow-hidden">
                                     <?php if (!empty($laptop['image'])): ?>
@@ -124,8 +133,11 @@ $stockStatusVariant = [
                                             <i data-lucide="monitor" class="w-16 h-16 text-gray-300"></i>
                                         </div>
                                     <?php endif; ?>
-                                    <span class="badge <?= $stockStatusVariant[$laptop['stock_status']] ?? 'badge-muted' ?> absolute top-4 right-4">
-                                        <?= e($laptop['stock_status']) ?>
+                                    <span class="badge <?= $stockStatusVariant[$laptop['status']] ?? 'badge-muted' ?> absolute top-4 right-4">
+                                        <?= e(ucfirst($laptop['status'])) ?>
+                                    </span>
+                                    <span class="badge badge-outline absolute top-4 left-4">
+                                        <?= e($conditionVariant[$laptop['condition']] ?? ucfirst($laptop['condition'])) ?>
                                     </span>
                                 </div>
 
@@ -136,7 +148,7 @@ $stockStatusVariant = [
                                             <?= e($laptop['name']) ?>
                                         </h3>
                                         <span class="text-xl font-bold text-vermilion">
-                                            <?= formatPrice($laptop['price'], $laptop['currency'] ?? 'TZS') ?>
+                                            $<?= number_format($laptop['price'], 0) ?>
                                         </span>
                                     </div>
 
@@ -144,19 +156,19 @@ $stockStatusVariant = [
                                     <div class="grid grid-cols-2 gap-3 mb-6">
                                         <div class="flex items-center gap-2 text-sm text-neutral-text">
                                             <i data-lucide="cpu" class="w-4 h-4 text-anchor-dark"></i>
-                                            <span class="truncate"><?= e($laptop['cpu'] ?? 'N/A') ?></span>
+                                            <span class="truncate"><?= e($laptop['specifications']['cpu'] ?? 'N/A') ?></span>
                                         </div>
                                         <div class="flex items-center gap-2 text-sm text-neutral-text">
                                             <i data-lucide="memory-stick" class="w-4 h-4 text-anchor-dark"></i>
-                                            <span><?= e($laptop['ram'] ?? 'N/A') ?></span>
+                                            <span><?= e($laptop['specifications']['ram_size'] ?? 'N/A') ?></span>
                                         </div>
                                         <div class="flex items-center gap-2 text-sm text-neutral-text">
                                             <i data-lucide="hard-drive" class="w-4 h-4 text-anchor-dark"></i>
-                                            <span><?= e($laptop['storage'] ?? 'N/A') ?></span>
+                                            <span><?= e($laptop['specifications']['storage_capacity'] ?? 'N/A') ?> <?= e($laptop['specifications']['storage_type'] ?? '') ?></span>
                                         </div>
                                         <div class="flex items-center gap-2 text-sm text-neutral-text">
                                             <i data-lucide="monitor" class="w-4 h-4 text-anchor-dark"></i>
-                                            <span class="truncate"><?= e($laptop['gpu'] ?? 'N/A') ?></span>
+                                            <span class="truncate"><?= e($laptop['specifications']['gpu'] ?? 'N/A') ?></span>
                                         </div>
                                     </div>
 

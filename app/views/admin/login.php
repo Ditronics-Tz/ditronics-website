@@ -6,7 +6,7 @@ unset($_SESSION['login_error']);
     <div class="w-full max-w-md">
         <div class="text-center mb-8">
             <img
-                src="/images/DITRONICS-COMPANY-LOGO.png"
+                src="/public/images/DITRONICS-COMPANY-LOGO.png"
                 alt="Ditronics"
                 width="80"
                 height="80"

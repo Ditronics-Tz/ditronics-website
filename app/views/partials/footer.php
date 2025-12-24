@@ -31,7 +31,7 @@ $footerLinks = [
             <!-- Brand Column -->
             <div class="space-y-4">
                 <a href="/" class="flex items-center gap-2 text-xl font-bold text-white hover:opacity-80 transition-opacity">
-                    <img src="/images/DITRONICS-COMPANY-LOGO.png" alt="<?= e($companyName) ?> Logo" width="40" height="40" class="rounded-full">
+                    <img src="/public/images/DITRONICS-COMPANY-LOGO.png" alt="<?= e($companyName) ?> Logo" width="40" height="40" class="rounded-full">
                     <span class="text-white"><?= e($companyName) ?></span>
                 </a>
                 <p class="text-gray-300 text-sm leading-relaxed">

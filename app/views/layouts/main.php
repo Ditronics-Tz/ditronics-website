@@ -8,20 +8,20 @@
     <meta name="keywords" content="IT services, OS downgrade, custom PC builds, enterprise hardware, tech support">
     
     <!-- Favicon -->
-    <link rel="icon" href="/images/DITRONICS-COMPANY-LOGO.png">
-    <link rel="apple-touch-icon" href="/images/DITRONICS-COMPANY-LOGO.png">
+    <link rel="icon" href="/public/images/DITRONICS-COMPANY-LOGO.png">
+    <link rel="apple-touch-icon" href="/public/images/DITRONICS-COMPANY-LOGO.png">
     
     <!-- Open Graph -->
     <meta property="og:title" content="<?= e($title ?? SITE_NAME) ?>">
     <meta property="og:description" content="<?= e($description ?? 'Enterprise-grade tech solutions.') ?>">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="/images/DITRONICS-COMPANY-LOGO.png">
+    <meta property="og:image" content="/public/images/DITRONICS-COMPANY-LOGO.png">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?= e($title ?? SITE_NAME) ?>">
     <meta name="twitter:description" content="<?= e($description ?? 'Enterprise-grade tech solutions.') ?>">
-    <meta name="twitter:image" content="/images/DITRONICS-COMPANY-LOGO.png">
+    <meta name="twitter:image" content="/public/images/DITRONICS-COMPANY-LOGO.png">
     
     <!-- Inter Font from Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +29,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Styles -->
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/public/css/styles.css">
     
     <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
