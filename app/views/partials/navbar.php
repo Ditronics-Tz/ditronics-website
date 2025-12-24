@@ -3,7 +3,7 @@ $navLinks = [
     ['href' => '/', 'label' => 'Home'],
     ['href' => '/services', 'label' => 'Services'],
     ['href' => '/studio', 'label' => 'Studio'],
-    ['href' => '/laptops', 'label' => 'Laptops'],
+    ['href' => '/products', 'label' => 'Products'],
     ['href' => '/contact', 'label' => 'Contact'],
 ];
 ?>

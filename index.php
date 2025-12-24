@@ -57,8 +57,13 @@ $router->get('/services', 'PageController@services');
 $router->get('/studio', 'PageController@studio');
 $router->get('/contact', 'PageController@contact');
 $router->post('/contact', 'PageController@submitContact');
-$router->get('/laptops', 'LaptopController@index');
-$router->get('/laptops/{slug}', 'LaptopController@show');
+$router->get('/products', 'ProductController@index');
+$router->get('/products/{category}', 'ProductController@category');
+$router->get('/product/{slug}', 'ProductController@show');
+
+// Legacy laptop routes (redirect to products)
+$router->get('/laptops', 'ProductController@laptops');
+$router->get('/laptops/{slug}', 'ProductController@laptopDetail');
 
 // Auth routes
 $router->get('/admin/login', 'AuthController@loginForm');
