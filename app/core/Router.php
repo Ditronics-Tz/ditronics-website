@@ -83,8 +83,17 @@ class Router
      */
     private function getPath(): string
     {
-        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        return $path ?: '/';
+        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?: '/';
+
+        // Normalize trailing slashes so "/admin/login" and "/admin/login/" match the same route.
+        if ($path !== '/') {
+            $path = rtrim($path, '/');
+            if ($path === '') {
+                $path = '/';
+            }
+        }
+
+        return $path;
     }
 
     /**

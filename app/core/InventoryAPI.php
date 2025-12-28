@@ -8,7 +8,7 @@
 
 class InventoryAPI
 {
-    private const BASE_URL = 'http://127.0.0.1:3009/api/v1';
+    private const BASE_URL = 'https://inventory.ditronics.co.tz/api/v1';
     private const TIMEOUT = 10;
     
     /**

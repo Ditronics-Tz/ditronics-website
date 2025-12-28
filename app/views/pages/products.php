@@ -163,7 +163,7 @@ $categoryIcons = [
                     <div class="text-center py-20">
                         <i data-lucide="package" class="w-16 h-16 text-gray-300 mx-auto mb-4"></i>
                         <p class="text-neutral-text mb-4">No products available yet.</p>
-                        <a href="/contact" class="btn btn-primary">Contact Us</a>
+                        <a href="/contact" class="btn btn-primary btn-sm">Contact Us</a>
                     </div>
                 <?php else: ?>
                     <div id="products-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

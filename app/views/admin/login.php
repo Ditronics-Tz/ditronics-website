@@ -31,8 +31,9 @@ unset($_SESSION['login_error']);
                         Username
                     </label>
                     <div class="relative">
-                        <i data-lucide="user" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400"></i>
+                        <i data-lucide="user" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" aria-hidden="true"></i>
                         <input
+                            id="username"
                             name="username"
                             type="text"
                             required
@@ -47,18 +48,30 @@ unset($_SESSION['login_error']);
                         Password
                     </label>
                     <div class="relative">
-                        <i data-lucide="lock" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400"></i>
+                        <i data-lucide="lock" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" aria-hidden="true"></i>
                         <input
+                            id="password"
                             name="password"
                             type="password"
                             required
                             placeholder="Enter password"
-                            class="form-input pl-10"
+                            class="form-input pl-10 pr-10"
                         >
+
+                        <button
+                            type="button"
+                            id="toggle-password"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-gray-400"
+                            aria-label="Show password"
+                            aria-pressed="false"
+                        >
+                            <i data-lucide="eye" class="js-eye w-4 h-4" aria-hidden="true"></i>
+                            <i data-lucide="eye-off" class="js-eye-off w-4 h-4 hidden" aria-hidden="true"></i>
+                        </button>
                     </div>
                 </div>
                 
-                <button type="submit" class="btn btn-primary w-full">
+                <button type="submit" class="btn btn-primary btn-md w-full">
                     Sign In
                 </button>
             </form>
@@ -66,9 +79,29 @@ unset($_SESSION['login_error']);
     </div>
 </div>
 
-<style>
-.space-y-4 > * + * { margin-top: 1rem; }
-.transform { transform: translateY(-50%); }
-.-translate-y-1\/2 { transform: translateY(-50%); }
-.pl-10 { padding-left: 2.5rem; }
-</style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const toggle = document.getElementById('toggle-password');
+    const input = document.getElementById('password');
+
+    if (!toggle || !input) return;
+
+    const eye = toggle.querySelector('.js-eye');
+    const eyeOff = toggle.querySelector('.js-eye-off');
+
+    function setVisible(isVisible) {
+        input.type = isVisible ? 'text' : 'password';
+        toggle.setAttribute('aria-pressed', String(isVisible));
+        toggle.setAttribute('aria-label', isVisible ? 'Hide password' : 'Show password');
+
+        if (eye) eye.classList.toggle('hidden', isVisible);
+        if (eyeOff) eyeOff.classList.toggle('hidden', !isVisible);
+    }
+
+    setVisible(false);
+
+    toggle.addEventListener('click', function () {
+        setVisible(input.type === 'password');
+    });
+});
+</script>
