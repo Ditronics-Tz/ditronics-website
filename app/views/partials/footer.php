@@ -1,5 +1,5 @@
 <?php
-$settings = getSettings();
+$settings = (isset($settings) && is_array($settings)) ? $settings : getSettings();
 $phoneNumber = $settings['phone_number'] ?? '255717321753';
 $email = $settings['email'] ?? 'info@ditronics.co.tz';
 $address = $settings['address'] ?? 'Shangwe Kibada, Tanzania';

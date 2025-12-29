@@ -12,11 +12,11 @@
                 >
                 <div>
                     <h1 class="text-xl font-bold text-anchor-dark">Admin Dashboard</h1>
-                    <p class="text-sm text-gray-500">Manage your laptops</p>
+                    <p class="text-sm text-gray-500">View inventory products</p>
                 </div>
             </div>
             <div class="flex items-center gap-4">
-                <a href="/laptops" class="btn btn-outline btn-sm">View Site</a>
+                <a href="/products" class="btn btn-outline btn-sm">View Site</a>
                 <form action="/admin/logout" method="POST" style="display: inline;">
                     <?= CSRF::field() ?>
                     <button type="submit" class="btn btn-ghost btn-sm">
@@ -34,33 +34,33 @@
             <div class="bg-white rounded-lg p-6 border border-gray-200">
                 <div class="flex items-center gap-4">
                     <div class="w-12 h-12 rounded-lg flex items-center justify-center" style="background-color: rgba(255, 74, 0, 0.1);">
-                        <i data-lucide="laptop" class="w-6 h-6 text-vermilion"></i>
+                        <i data-lucide="package" class="w-6 h-6 text-vermilion"></i>
                     </div>
                     <div>
-                        <p class="text-2xl font-bold text-anchor-dark"><?= $stats['totalLaptops'] ?></p>
-                        <p class="text-sm text-gray-500">Total Laptops</p>
+                        <p class="text-2xl font-bold text-anchor-dark"><?= $stats['totalProducts'] ?></p>
+                        <p class="text-sm text-gray-500">Total Products</p>
                     </div>
                 </div>
             </div>
             <div class="bg-white rounded-lg p-6 border border-gray-200">
                 <div class="flex items-center gap-4">
                     <div class="w-12 h-12 rounded-lg flex items-center justify-center" style="background-color: rgba(19, 208, 171, 0.1);">
-                        <i data-lucide="laptop" class="w-6 h-6 text-teal-green"></i>
+                        <i data-lucide="check-circle" class="w-6 h-6 text-teal-green"></i>
                     </div>
                     <div>
-                        <p class="text-2xl font-bold text-anchor-dark"><?= $stats['inStock'] ?></p>
-                        <p class="text-sm text-gray-500">In Stock</p>
+                        <p class="text-2xl font-bold text-anchor-dark"><?= $stats['available'] ?></p>
+                        <p class="text-sm text-gray-500">Available</p>
                     </div>
                 </div>
             </div>
             <div class="bg-white rounded-lg p-6 border border-gray-200">
                 <div class="flex items-center gap-4">
                     <div class="w-12 h-12 rounded-lg flex items-center justify-center" style="background-color: rgba(255, 196, 62, 0.1);">
-                        <i data-lucide="laptop" class="w-6 h-6" style="color: var(--sunny);"></i>
+                        <i data-lucide="clock" class="w-6 h-6" style="color: var(--sunny);"></i>
                     </div>
                     <div>
-                        <p class="text-2xl font-bold text-anchor-dark"><?= $stats['featured'] ?></p>
-                        <p class="text-sm text-gray-500">Featured</p>
+                        <p class="text-2xl font-bold text-anchor-dark"><?= $stats['reserved'] ?></p>
+                        <p class="text-sm text-gray-500">Reserved</p>
                     </div>
                 </div>
             </div>
@@ -68,10 +68,10 @@
 
         <!-- Tabs -->
         <div class="flex gap-4 mb-6 border-b border-gray-200">
-            <button class="tab-btn active pb-3 px-1 text-sm font-medium transition-colors relative text-vermilion" data-tab="laptops">
+            <button class="tab-btn active pb-3 px-1 text-sm font-medium transition-colors relative text-vermilion" data-tab="products">
                 <div class="flex items-center gap-2">
-                    <i data-lucide="laptop" class="w-4 h-4"></i>
-                    Laptops
+                    <i data-lucide="package" class="w-4 h-4"></i>
+                    Products
                 </div>
                 <div class="tab-indicator absolute bottom-0 left-0 right-0 h-0.5 bg-vermilion"></div>
             </button>
@@ -79,116 +79,111 @@
                 <div class="flex items-center gap-2">
                     <i data-lucide="inbox" class="w-4 h-4"></i>
                     Inquiries
-                    <?php if ($stats['unreadInquiries'] > 0): ?>
-                        <span class="bg-vermilion text-white text-xs rounded-full px-2 py-0.5"><?= $stats['unreadInquiries'] ?></span>
-                    <?php endif; ?>
                 </div>
-                <div class="tab-indicator absolute bottom-0 left-0 right-0 h-0.5 bg-vermilion hidden"></div>
+                <div class="tab-indicator absolute bottom-0 left-0 right-0 h-0.5 bg-vermilion"></div>
             </button>
             <button class="tab-btn pb-3 px-1 text-sm font-medium transition-colors relative text-gray-500" data-tab="settings">
                 <div class="flex items-center gap-2">
                     <i data-lucide="settings" class="w-4 h-4"></i>
                     Settings
                 </div>
-                <div class="tab-indicator absolute bottom-0 left-0 right-0 h-0.5 bg-vermilion hidden"></div>
+                <div class="tab-indicator absolute bottom-0 left-0 right-0 h-0.5 bg-vermilion"></div>
             </button>
         </div>
 
-        <!-- Laptops Tab -->
-        <div id="tab-laptops" class="tab-content">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-semibold text-anchor-dark">Laptops</h2>
-                <button id="add-laptop-btn" class="btn btn-primary">
-                    <i data-lucide="plus" class="w-4 h-4 mr-2"></i>
-                    Add Laptop
-                </button>
-            </div>
+            <!-- Products Tab (read-only from Inventory API) -->
+            <div id="tab-products" class="tab-content">
+                <div class="mb-6">
+                    <h2 class="text-xl font-semibold text-anchor-dark">Products</h2>
+                    <p class="text-sm text-gray-500">Products are managed in the Inventory system and displayed here read-only.</p>
+                </div>
 
-            <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                <?php if (empty($laptops)): ?>
-                    <div class="p-12 text-center">
-                        <i data-lucide="laptop" class="w-12 h-12 mx-auto text-gray-300 mb-4"></i>
-                        <p class="text-gray-500 mb-4">No laptops yet. Add your first laptop!</p>
-                        <button class="btn btn-primary add-laptop-trigger">
-                            <i data-lucide="plus" class="w-4 h-4 mr-2"></i>
-                            Add Laptop
-                        </button>
-                    </div>
-                <?php else: ?>
-                    <div class="overflow-x-auto">
-                        <table class="w-full">
-                            <thead class="bg-gray-50 border-b border-gray-200">
-                                <tr>
-                                    <th class="text-left p-4 text-sm font-medium text-gray-500">Image</th>
-                                    <th class="text-left p-4 text-sm font-medium text-gray-500">Name</th>
-                                    <th class="text-left p-4 text-sm font-medium text-gray-500">Price</th>
-                                    <th class="text-left p-4 text-sm font-medium text-gray-500">Status</th>
-                                    <th class="text-left p-4 text-sm font-medium text-gray-500">Featured</th>
-                                    <th class="text-right p-4 text-sm font-medium text-gray-500">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="laptops-tbody">
-                                <?php foreach ($laptops as $laptop): ?>
-                                    <tr class="border-b border-gray-100 hover:bg-gray-50" data-id="<?= $laptop['id'] ?>">
-                                        <td class="p-4">
-                                            <div class="w-16 h-12 rounded bg-gray-100 overflow-hidden">
-                                                <?php if (!empty($laptop['image'])): ?>
-                                                    <img src="<?= e($laptop['image']) ?>" alt="<?= e($laptop['name']) ?>" class="w-full h-full object-cover">
-                                                <?php else: ?>
-                                                    <div class="w-full h-full flex items-center justify-center">
-                                                        <i data-lucide="laptop" class="w-5 h-5 text-gray-300"></i>
-                                                    </div>
-                                                <?php endif; ?>
-                                            </div>
-                                        </td>
-                                        <td class="p-4">
-                                            <p class="font-medium text-anchor-dark"><?= e($laptop['name']) ?></p>
-                                            <p class="text-sm text-gray-500"><?= e($laptop['cpu'] ?? '') ?></p>
-                                        </td>
-                                        <td class="p-4">
-                                            <p class="font-semibold text-vermilion">
-                                                <?= formatPrice($laptop['price'], $laptop['currency'] ?? 'TZS') ?>
-                                            </p>
-                                        </td>
-                                        <td class="p-4">
-                                            <span class="inline-flex px-2 py-1 rounded-full text-xs font-medium 
-                                                <?php if ($laptop['stock_status'] === 'In Stock'): ?>
-                                                    bg-green-100 text-green-700
-                                                <?php elseif ($laptop['stock_status'] === 'Limited'): ?>
-                                                    bg-yellow-100 text-yellow-700
-                                                <?php else: ?>
-                                                    bg-gray-100 text-gray-700
-                                                <?php endif; ?>">
-                                                <?= e($laptop['stock_status']) ?>
-                                            </span>
-                                        </td>
-                                        <td class="p-4">
-                                            <?php if ($laptop['featured']): ?>
-                                                <span class="text-vermilion">★</span>
-                                            <?php else: ?>
-                                                <span class="text-gray-300">☆</span>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td class="p-4">
-                                            <div class="flex items-center justify-end gap-2">
-                                                <button class="edit-laptop p-2 hover:bg-gray-100 rounded-lg transition-colors" 
-                                                        data-laptop='<?= e(json_encode($laptop)) ?>'>
-                                                    <i data-lucide="edit" class="w-4 h-4 text-gray-500"></i>
-                                                </button>
-                                                <button class="delete-laptop p-2 hover:bg-red-50 rounded-lg transition-colors"
-                                                        data-id="<?= $laptop['id'] ?>">
-                                                    <i data-lucide="trash-2" class="w-4 h-4 text-red-500"></i>
-                                                </button>
-                                            </div>
-                                        </td>
+                <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                    <?php if (!empty($productsError)): ?>
+                        <div class="p-12 text-center">
+                            <i data-lucide="wifi-off" class="w-12 h-12 mx-auto text-red-300 mb-4"></i>
+                            <p class="text-red-600 mb-2"><?= e($productsError) ?></p>
+                            <p class="text-sm text-gray-500">Please try again later.</p>
+                        </div>
+                    <?php elseif (empty($products)): ?>
+                        <div class="p-12 text-center">
+                            <i data-lucide="package" class="w-12 h-12 mx-auto text-gray-300 mb-4"></i>
+                            <p class="text-gray-500">No products found in the inventory.</p>
+                        </div>
+                    <?php else: ?>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-gray-50 border-b border-gray-200">
+                                    <tr>
+                                        <th class="text-left p-4 text-sm font-medium text-gray-500">Image</th>
+                                        <th class="text-left p-4 text-sm font-medium text-gray-500">Name</th>
+                                        <th class="text-left p-4 text-sm font-medium text-gray-500">Category</th>
+                                        <th class="text-left p-4 text-sm font-medium text-gray-500">Price (TZS)</th>
+                                        <th class="text-left p-4 text-sm font-medium text-gray-500">Status</th>
+                                        <th class="text-right p-4 text-sm font-medium text-gray-500">Actions</th>
                                     </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                <?php endif; ?>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($products as $product): ?>
+                                        <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                            <td class="p-4">
+                                                <div class="w-16 h-12 rounded bg-gray-100 overflow-hidden">
+                                                    <?php if (!empty($product['image'])): ?>
+                                                        <img src="<?= e($product['image']) ?>" alt="<?= e($product['name']) ?>" class="w-full h-full object-contain p-2">
+                                                    <?php else: ?>
+                                                        <div class="w-full h-full flex items-center justify-center">
+                                                            <i data-lucide="package" class="w-5 h-5 text-gray-300"></i>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </td>
+                                            <td class="p-4">
+                                                <p class="font-medium text-anchor-dark"><?= e($product['name']) ?></p>
+                                                <p class="text-sm text-gray-500">
+                                                    <?= e(trim(($product['brand'] ?? '') . ' ' . ($product['model'] ?? ''))) ?>
+                                                </p>
+                                            </td>
+                                            <td class="p-4">
+                                                <p class="text-sm text-gray-600"><?= e(ucwords(str_replace('_', ' ', (string)($product['category'] ?? '')))) ?></p>
+                                                <p class="text-xs text-gray-400"><?= e(ucfirst((string)($product['condition'] ?? ''))) ?></p>
+                                            </td>
+                                            <td class="p-4">
+                                                <p class="font-semibold text-vermilion">TZS <?= number_format((float)($product['price'] ?? 0), 0) ?></p>
+                                            </td>
+                                            <td class="p-4">
+                                                <?php $status = (string)($product['status'] ?? ''); ?>
+                                                <span class="inline-flex px-2 py-1 rounded-full text-xs font-medium 
+                                                    <?php if ($status === 'available'): ?>
+                                                        bg-green-100 text-green-700
+                                                    <?php elseif ($status === 'reserved'): ?>
+                                                        bg-yellow-100 text-yellow-700
+                                                    <?php else: ?>
+                                                        bg-gray-100 text-gray-700
+                                                    <?php endif; ?>">
+                                                    <?= e(ucfirst($status ?: 'unknown')) ?>
+                                                </span>
+                                            </td>
+                                            <td class="p-4">
+                                                <div class="flex items-center justify-end gap-2">
+                                                    <a
+                                                        href="/product/<?= e($product['slug']) ?>"
+                                                        class="btn btn-outline btn-sm"
+                                                        target="_blank"
+                                                        rel="noopener"
+                                                    >
+                                                        <i data-lucide="eye" class="w-4 h-4 mr-2"></i>
+                                                        View
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php endif; ?>
+                </div>
             </div>
-        </div>
 
         <!-- Inquiries Tab -->
         <div id="tab-inquiries" class="tab-content hidden">
@@ -322,12 +317,12 @@
                             >
                         </div>
                         
-                        <div class="pt-4 border-t border-gray-200">
-                            <button type="submit" class="btn btn-primary" id="save-settings-btn">
+                        <div class="pt-4 border-t border-gray-200 flex items-center justify-between gap-4">
+                            <button type="submit" class="btn btn-primary btn-md" id="save-settings-btn">
                                 <i data-lucide="save" class="w-4 h-4 mr-2"></i>
                                 Save Settings
                             </button>
-                            <span id="settings-saved" class="ml-4 text-sm text-green-600 hidden">✓ Settings saved successfully!</span>
+                            <span id="settings-saved" class="text-sm text-green-600 hidden">✓ Settings saved successfully!</span>
                         </div>
                     </form>
                 </div>
@@ -588,6 +583,22 @@
 .divide-y > * + * { border-top-width: 1px; }
 .divide-gray-100 > * + * { border-color: #f3f4f6; }
 .h-0\.5 { height: 0.125rem; }
+.tab-btn {
+    background: transparent;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    text-align: left;
+    -webkit-appearance: none;
+    appearance: none;
+}
+.tab-btn:focus-visible {
+    outline: 2px solid var(--vermilion);
+    outline-offset: 4px;
+    border-radius: 0.25rem;
+}
 .tab-btn:not(.active) .tab-indicator { display: none; }
 .tab-btn.active { color: var(--vermilion); }
 .tab-btn.active .tab-indicator { display: block; }

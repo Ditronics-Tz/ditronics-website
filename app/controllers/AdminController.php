@@ -18,26 +18,36 @@ class AdminController
         Auth::requireAuth();
 
         $db = Database::getInstance();
-        
-        $laptops = $db->fetchAll('SELECT * FROM laptops ORDER BY created_at DESC');
+
         $settings = getSettings();
         $inquiries = $db->fetchAll('SELECT * FROM contact_inquiries ORDER BY created_at DESC');
-        
+
+        // Inventory products come from external Inventory API (read-only in this CMS)
+        $products = [];
+        $productsError = null;
+        $apiResponse = InventoryAPI::getAllProducts();
+        if ($apiResponse['success'] ?? false) {
+            $products = array_map([InventoryAPI::class, 'formatProduct'], $apiResponse['data'] ?? []);
+        } else {
+            $productsError = $apiResponse['error'] ?? 'Unable to load products from inventory API.';
+        }
+
         // Count stats
-        $totalLaptops = count($laptops);
-        $inStock = count(array_filter($laptops, fn($l) => $l['stock_status'] === 'In Stock'));
-        $featured = count(array_filter($laptops, fn($l) => $l['featured']));
-        $unreadInquiries = count(array_filter($inquiries, fn($i) => $i['status'] === 'new'));
+        $totalProducts = count($products);
+        $available = count(array_filter($products, static fn($p) => ($p['status'] ?? '') === 'available'));
+        $reserved = count(array_filter($products, static fn($p) => ($p['status'] ?? '') === 'reserved'));
+        $unreadInquiries = count(array_filter($inquiries, static fn($i) => ($i['status'] ?? '') === 'new'));
 
         View::render('admin/dashboard', [
             'title' => 'Admin Dashboard — Ditronics',
-            'laptops' => $laptops,
+            'products' => $products,
+            'productsError' => $productsError,
             'settings' => $settings,
             'inquiries' => $inquiries,
             'stats' => [
-                'totalLaptops' => $totalLaptops,
-                'inStock' => $inStock,
-                'featured' => $featured,
+                'totalProducts' => $totalProducts,
+                'available' => $available,
+                'reserved' => $reserved,
                 'unreadInquiries' => $unreadInquiries,
             ],
             'csrfToken' => CSRF::getToken(),

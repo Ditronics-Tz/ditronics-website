@@ -19,6 +19,12 @@ class View
      */
     public static function render(string $view, array $data = [], ?string $layout = null): void
     {
+        // Make site-wide settings available by default.
+        // Controllers can override by explicitly passing 'settings'.
+        if (!array_key_exists('settings', $data) && function_exists('getSettings')) {
+            $data['settings'] = getSettings();
+        }
+
         // Extract data to make available in view
         extract($data);
 
@@ -59,6 +65,11 @@ class View
      */
     public static function partial(string $partial, array $data = []): void
     {
+        // Make site-wide settings available in partials too.
+        if (!array_key_exists('settings', $data) && function_exists('getSettings')) {
+            $data['settings'] = getSettings();
+        }
+
         extract($data);
         
         $partialFile = APP_PATH . '/views/partials/' . $partial . '.php';
