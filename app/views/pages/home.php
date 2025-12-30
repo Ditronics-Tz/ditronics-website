@@ -102,7 +102,13 @@ $tierColors = [
 
 <!-- Hero Section -->
 <section class="hero-section">
-    <div class="container relative py-20 md:py-32 lg:py-40">
+    <!-- Animated gradient orbs -->
+    <div class="hero-gradient-orb hero-gradient-orb-1"></div>
+    <div class="hero-gradient-orb hero-gradient-orb-2"></div>
+    <div class="hero-gradient-orb hero-gradient-orb-3"></div>
+    <div class="hero-gradient-orb hero-gradient-orb-4"></div>
+    
+    <div class="container relative py-20 md:py-32 lg:py-40" style="z-index: 1;">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
             <!-- Content -->
             <div class="text-center lg:text-left">
@@ -113,21 +119,21 @@ $tierColors = [
                 </div>
 
                 <!-- Heading -->
-                <h1 class="text-anchor-dark mb-6">
+                <h1 class="hero-title text-anchor-dark mb-6">
                     Optimize Your Tech with
-                    <span class="text-vermilion">Ditronics</span>
+                    <span class="text-gradient text-glow">Ditronics</span>
                 </h1>
 
                 <!-- Subtext -->
-                <p class="text-lg md:text-xl text-neutral-text mb-8 max-w-xl mx-auto lg:mx-0">
+                <p class="hero-subtitle text-lg md:text-xl text-neutral-text mb-8 max-w-xl mx-auto lg:mx-0">
                     Software integration, custom business solutions, and cutting-edge R&D
                     with enterprise-grade support. We make complex tech simple.
                 </p>
 
                 <!-- Benefits -->
-                <ul class="flex flex-col gap-3 mb-8">
-                    <?php foreach ($benefits as $benefit): ?>
-                        <li class="flex items-center gap-3 text-neutral-text justify-center lg:justify-start">
+                <ul class="hero-benefits flex flex-col gap-3 mb-8">
+                    <?php foreach ($benefits as $index => $benefit): ?>
+                        <li class="hero-benefit-item flex items-center gap-3 text-neutral-text justify-center lg:justify-start" style="animation-delay: <?= 0.9 + ($index * 0.1) ?>s;">
                             <i data-lucide="check-circle" class="w-5 h-5 text-teal-green flex-shrink-0"></i>
                             <?= e($benefit) ?>
                         </li>
@@ -135,35 +141,35 @@ $tierColors = [
                 </ul>
 
                 <!-- CTAs -->
-                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <div class="hero-cta flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                     <a href="/services" class="btn btn-primary btn-lg gap-2">
                         Explore Services
                         <i data-lucide="arrow-right" class="w-5 h-5"></i>
                     </a>
                     <a href="/laptops" class="btn btn-secondary btn-lg">
-                        View Laptops
+                        View Products
                     </a>
                 </div>
             </div>
 
             <!-- Visual Element -->
-            <div class="relative hidden lg:block">
+            <div class="hero-visual relative hidden lg:block">
                 <div class="relative aspect-square max-w-lg mx-auto">
-                    <!-- Decorative circles -->
+                    <!-- Decorative circles with vibrant colors -->
                     <div class="absolute inset-0 flex items-center justify-center">
-                        <div class="w-72 h-72 rounded-full" style="background-color: rgba(255, 74, 0, 0.05); animation: pulse 2s infinite;"></div>
+                        <div class="hero-circle-1 w-80 h-80 rounded-full" style="background: linear-gradient(135deg, rgba(255, 74, 0, 0.25) 0%, rgba(253, 118, 34, 0.15) 100%); box-shadow: 0 0 80px rgba(255, 74, 0, 0.3), inset 0 0 30px rgba(255, 74, 0, 0.1);"></div>
                     </div>
                     <div class="absolute inset-0 flex items-center justify-center">
-                        <div class="w-56 h-56 rounded-full" style="background-color: rgba(19, 208, 171, 0.05);"></div>
+                        <div class="hero-circle-2 w-60 h-60 rounded-full" style="background: linear-gradient(135deg, rgba(19, 208, 171, 0.25) 0%, rgba(73, 157, 243, 0.15) 100%); box-shadow: 0 0 60px rgba(19, 208, 171, 0.3), inset 0 0 25px rgba(19, 208, 171, 0.1);"></div>
                     </div>
                     <div class="absolute inset-0 flex items-center justify-center">
-                        <div class="w-40 h-40 rounded-full" style="background-color: rgba(19, 208, 171, 0.1);"></div>
+                        <div class="hero-circle-3 w-44 h-44 rounded-full" style="background: linear-gradient(135deg, rgba(255, 196, 62, 0.3) 0%, rgba(139, 92, 246, 0.2) 100%); box-shadow: 0 0 50px rgba(255, 196, 62, 0.35), inset 0 0 20px rgba(255, 196, 62, 0.15);"></div>
                     </div>
                     
-                    <!-- Center icon -->
+                    <!-- Center icon with glow -->
                     <div class="absolute inset-0 flex items-center justify-center">
-                        <div class="w-24 h-24 rounded-2xl bg-white shadow-lg flex items-center justify-center overflow-hidden">
-                            <img src="/public/images/DITRONICS-COMPANY-LOGO.png" alt="Ditronics Logo" width="80" height="80" class="rounded-xl">
+                        <div class="hero-logo-wrapper w-28 h-28 rounded-2xl bg-white flex items-center justify-center overflow-hidden" style="box-shadow: 0 25px 50px rgba(255, 74, 0, 0.2), 0 0 0 2px rgba(255, 74, 0, 0.15), 0 0 60px rgba(255, 74, 0, 0.15);">
+                            <img src="/public/images/DITRONICS-COMPANY-LOGO.png" alt="Ditronics Logo" width="90" height="90" class="hero-logo rounded-xl">
                         </div>
                     </div>
                 </div>
