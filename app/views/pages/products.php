@@ -132,19 +132,19 @@ $categoryIcons = [
                         <div class="space-y-2">
                             <label class="flex items-center gap-3 cursor-pointer">
                                 <input type="radio" name="priceRange" class="filter-price form-checkbox" value="0-500">
-                                <span class="text-sm text-neutral-text">Under $500</span>
+                                <span class="text-sm text-neutral-text">Under TZS500</span>
                             </label>
                             <label class="flex items-center gap-3 cursor-pointer">
                                 <input type="radio" name="priceRange" class="filter-price form-checkbox" value="500-1000">
-                                <span class="text-sm text-neutral-text">$500 - $1,000</span>
+                                <span class="text-sm text-neutral-text">TZS500 - TZS1,000</span>
                             </label>
                             <label class="flex items-center gap-3 cursor-pointer">
                                 <input type="radio" name="priceRange" class="filter-price form-checkbox" value="1000-2000">
-                                <span class="text-sm text-neutral-text">$1,000 - $2,000</span>
+                                <span class="text-sm text-neutral-text">TZS1,000 - TZS2,000</span>
                             </label>
                             <label class="flex items-center gap-3 cursor-pointer">
                                 <input type="radio" name="priceRange" class="filter-price form-checkbox" value="2000-999999">
-                                <span class="text-sm text-neutral-text">Over $2,000</span>
+                                <span class="text-sm text-neutral-text">Over TZS2,000</span>
                             </label>
                         </div>
                     </div>
@@ -215,7 +215,7 @@ $categoryIcons = [
                                             <?= e($product['name']) ?>
                                         </h3>
                                         <span class="text-xl font-bold text-vermilion ml-2">
-                                            $<?= number_format($product['price'], 0) ?>
+                                            TZS<?= number_format($product['price'], 0) ?>
                                         </span>
                                     </div>
 
