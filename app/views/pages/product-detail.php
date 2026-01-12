@@ -137,7 +137,7 @@ $ports = !empty($product['specifications']['ports']) ? array_map('trim', explode
                     </h1>
                     <div class="flex items-center gap-3">
                         <span class="text-3xl font-bold text-vermilion">
-                            $<?= number_format($product['price'], 0) ?>
+                            TZS<?= number_format($product['price'], 0) ?>
                         </span>
                         <span class="badge badge-outline">
                             <?= e($categoryName) ?>

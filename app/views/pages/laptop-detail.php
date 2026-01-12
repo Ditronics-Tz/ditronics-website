@@ -95,7 +95,7 @@ $ports = !empty($laptop['specifications']['ports']) ? array_map('trim', explode(
                 <!-- Price -->
                 <div class="mb-8">
                     <p class="text-4xl font-bold text-vermilion">
-                        $<?= number_format($laptop['price'], 0) ?>
+                        TZS<?= number_format($laptop['price'], 0) ?>
                     </p>
                     <p class="text-sm text-neutral-text mt-1">
                         Price inclusive of all taxes
